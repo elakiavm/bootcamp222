@@ -1,18 +1,11 @@
-import pymongo 
-from pymongo import MongoClient
+from flask import Flask,render_template
 
-cluster = MongoClient('mongodb+srv://elakia:Kvtohindu@cluster0.dyhgo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+app = Flask(__name__)
 
-db = cluster["demo1"] 
-collection = db["flower"]
+@app.route("/",methods=["GET","POST"])
+def start ():
+    return render_template('index1.html')
 
-# collection.insert_one({'_id':2,'sunflower':20,'lily':25})
-myquery = {'_id':1}
-# mydoc = collection.find(myquery)
-# print(mydoc)
-# for x in mydoc:
-#   print(x)
-# collection.delete_one(myquery)
-myquery = { "sunflower": 20}
-newvalues = { "$set": { "address": "Canyon 123" } }
-collection.update_one(myquery, newvalues)
+
+if __name__ =="__main__":
+    app.run(debug=True)
