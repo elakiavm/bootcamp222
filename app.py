@@ -1,10 +1,10 @@
-from flask import Flask,render_template
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route("/",methods=["GET","POST"])
 def start ():
-    return render_template('index1.html')
+    return 'HELLO'
 
 
 if __name__ =="__main__":
