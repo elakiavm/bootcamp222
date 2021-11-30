@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+    firstservice:
+
+        container_name: firstcontainer
+
+        build: .
+
+        ports:
+            - "4000:2000"
