@@ -1,0 +1,379 @@
+<!doctype html>
+
+ 
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <title>RetroNerds</title>
+
+  <meta name="description" content="Old Games for Old Geeks">
+
+  <meta name="author" content="IT Pro">
+
+  <style>
+
+    .hidden {display:none}
+
+  </style>
+
+</head>
+
+ 
+
+<body>
+
+  <ul id="games">
+
+    {% for g in games %}
+
+    <li><a id="{{ g.id }}" href="#">{{ g.title }}</a>
+
+    </li>
+
+    {% endfor %}
+
+  </ul>
+
+  <div id="newgame"><a href="#" onclick="showform('create')">New Game</a></div>
+
+ 
+
+  <form id="form" class="hidden">
+
+      <label for="title">Title: </label>
+
+      <input type="text" id="title" name="title" /><br><br>
+
+      <label for="description">Description: </label>
+
+      <textarea id="description" name="description"></textarea><br><br>
+
+      <label for="yor">Year: </label>
+
+      <select id="yor" name="yor">
+
+<script>
+
+    let dateDropdown = document.getElementById('yor'); 
+
+    let yearCounter = 1997;
+
+    while (yearCounter >= 1970) {      
+
+      let dateOption = document.createElement('option');          
+
+      dateOption.text = yearCounter;      
+
+      dateOption.value = yearCounter;        
+
+      dateDropdown.add(dateOption);      
+
+      yearCounter -= 1;    
+
+    }
+
+</script>
+
+      </select><br>
+
+      <label for="publisher">Publisher: </label>
+
+      <input type="text" id="publisher" name="publisher" /><br><br>
+
+      <label for="genre">Genre: </label>
+
+      <select id="genre" name="genre">
+
+<option value="Adventure">Adventure</option>
+
+<option value="Platform">Platform</option>
+
+<option value="Shooter">Shooter</option>
+
+<option value="Strategy">Strategy</option>
+
+      </select><br><br>
+
+      <input type="submit" id="create" value="Create" />
+
+      <input type="submit" id="update" value="Update" />    
+
+      <input type="submit" id="delete" value="Delete" />    
+
+      <input type="reset" id="cancel" value="Cancel" onclick="hideform();"/>
+
+  </form>
+
+ 
+
+  <script>
+
+    const titleInput = document.getElementById('title');
+
+    const descriptionInput = document.getElementById('description');
+
+    const yorInput = document.getElementById('yor');
+
+    const publisherInput = document.getElementById('publisher');
+
+    const genreInput = document.getElementById('genre');
+
+    const myForm = document.getElementById("form");
+
+    const createButton = document.getElementById("create");
+
+    const updateButton = document.getElementById("update");
+
+    const deleteButton = document.getElementById("delete");
+
+    const cancelButton = document.getElementById("cancel");
+
+ 
+
+    function showform(task) {
+
+if (task == 'create') {
+
+    myForm.reset();
+
+    createButton.setAttribute("class", "");
+
+    updateButton.setAttribute("class", "hidden");
+
+}
+
+if (task == 'read') {
+
+    createButton.setAttribute("class", "hidden");
+
+    updateButton.setAttribute("class", "");
+
+}
+
+myForm.setAttribute("class", "");
+
+    }
+
+ 
+
+    function hideform() {
+
+myForm.reset();
+
+myForm.setAttribute("class", "hidden");
+
+    }
+
+ 
+
+    createButton.onclick = function (e) {
+
+e.preventDefault();
+
+const response = fetch('/games/create', {
+
+method: 'POST',
+
+body: JSON.stringify({
+
+    'title': titleInput.value,
+
+    'description': descriptionInput.value,
+
+    'yor': yorInput.value,
+
+    'publisher': publisherInput.value,
+
+    'genre': genreInput.value
+
+}),
+
+headers: {
+
+  'Content-Type': 'application/json',
+
+}
+
+})
+
+    .then(response => response.json())
+
+    .then(jsonResponse => {
+
+const li = document.createElement("li");
+
+const a = document.createElement("a");
+
+a.textContent = jsonResponse.title;
+
+a.setAttribute("id", jsonResponse.id);
+
+a.setAttribute("href", "#");
+
+li.append(a);
+
+li.addEventListener("click", readGame)
+
+document.getElementById('games').appendChild(li);
+
+    })
+
+    hideform();
+
+    }
+
+ 
+
+    var li = document.getElementsByTagName("li");
+
+    for(var i = 0;i<li.length;i++){
+
+li[i].addEventListener("click", readGame)
+
+    }
+
+ 
+
+    function readGame(e){
+
+const gameID = e.target.attributes.id.value
+
+const response = fetch('/games/' + gameID + '/read', {
+
+    method: 'POST',
+
+    body: JSON.stringify({
+
+    'title': titleInput.value,
+
+    'description': descriptionInput.value,
+
+    'yor': yorInput.value,
+
+    'publisher': publisherInput.value,
+
+'genre': genreInput.value
+
+    }),
+
+    headers: {
+
+'Content-Type': 'application/json',
+
+    }
+
+})
+
+      .then(response => response.json())
+
+      .then(jsonResponse => {
+
+  titleInput.value = jsonResponse.title;
+
+  descriptionInput.value = jsonResponse.description;
+
+  yorInput.value = jsonResponse.yor;
+
+  publisherInput.value = jsonResponse.publisher;
+
+  genreInput.value = jsonResponse.genre;
+
+      })
+
+updateButton.setAttribute("data-id", gameID);
+
+deleteButton.setAttribute("data-id", gameID);
+
+showform('read');
+
+    }
+
+ 
+
+    updateButton.onclick = function (e) {
+
+e.preventDefault();
+
+const gameID = updateButton.getAttribute("data-id");
+
+const response = fetch('/games/' + gameID + '/update', {
+
+    method: 'POST',
+
+    body: JSON.stringify({
+
+'title': titleInput.value,
+
+'description': descriptionInput.value,
+
+'yor': yorInput.value,
+
+'publisher': publisherInput.value,
+
+'genre': genreInput.value
+
+    }),
+
+    headers: {
+
+'Content-Type': 'application/json',
+
+    }
+
+})
+
+      .then(response => response.json())
+
+      .then(jsonResponse => {
+
+  const gameBullet = document.getElementById(gameID);
+
+  gameBullet.innerText = jsonResponse.title;
+
+      })
+
+ 
+
+hideform();
+
+    }
+
+ 
+
+    deleteButton.onclick = function (e) {
+
+e.preventDefault();
+
+const gameID = deleteButton.getAttribute("data-id");
+
+const response = fetch('/games/' + gameID + '/delete', {
+
+    method: 'DELETE'
+
+})
+
+      .then(response => response.json())
+
+      .then(jsonResponse => {
+
+  const gameText = document.getElementById(gameID);
+
+  gameText.parentNode.parentNode.removeChild(gameText.parentNode);
+
+      })
+
+hideform();
+
+    }
+
+ 
+
+</script>
+
+</body>
+
+</html>

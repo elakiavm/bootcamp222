@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Uchen&display=swap');
+
+        body {
+            background-color: white;
+            text-align: left;
+            font-family: 'Uchen', serif;
+            background-image: linear-gradient(180deg, #7C83FD 20%, #ffffff 20%);
+        }
+
+        .box {
+            padding-bottom: 100px;
+            width: 900px;
+            overflow: hidden;
+            margin: auto;
+            font-size: 20px;
+            padding: 80px;
+            border: 10px solid white;
+            margin: 10% auto 0;
+            border-radius: 6px;
+            background-color: white;
+            box-shadow: 0 9px 50px hsla(226, 55%, 16%, 0.31);
+        }
+
+        .form-group {
+            font-size: 18px;
+            font-family: 'Uchen', serif;
+            border-radius: 5px;
+        }
+        .sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(243, 243, 243);
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #425d8f;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #4c008a;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+img{
+			width:100px;
+			/* border-radius:50%; */
+			/* overflow:hidden;
+			border:4px solid @color-1st; */
+			box-shadow:0 0 0 4px rgba(255,255,255,0.2);
+		} 
+
+    </style>
+</head>
+
+<body>
+    <div class="sidenav">
+        <img src="https://cdn-images-1.medium.com/max/1200/1*KDBIIes8gD5itYIGKgVzmw.png" />
+        <p style="padding-left:10px; font-size:30px;">Featurepreneur</p>
+        <a href="/">Tips</a>
+        <a href="/process">Display</a>
+    </div>
+    
+    
+    <div class="box">
+        <h3>URL : <a href={{data["key1"]}}>{{data["key1"]}}</a></h3>
+        <video width="320" height="240" controls autoplay>
+            <source src="key1.mp4" type="video/mp4">
+            <source src="key1.ogg" type="video/ogg">
+        </video>
+        <!-- <iframe width="500" height="320" source src="key1.mp4" ></iframe> -->
+      
+        <h3>AIP key :{{data["key2"]}}</h3>
+        <h3>Tips :</h3>
+        {% for item in data["key3"] %}
+        <li>{{item}}</li>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>

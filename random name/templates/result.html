@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <form>
+        <!-- <h1>Result</h1> -->
+        <b>Tact Randomizer Clone</b>
+        <h5>created by bootcamp222</h5>
+
+        <h5>The Randomlist is</h5>
+        {% for item in randomlist %}
+        <li>{{item}}</li>
+        {% endfor %}
+        <br>
+        <br>
+    
+        <button >Generate New</button>
+      
+        
+    </form>
+    
+    <img scr="static/shuffle.png" onclick="history.go(0);" width="100" height=auto alt="image">
+
+</body>
+</html>
+
+
+<!-- Error - 1
+
+Original Code :
+
+img src="static/Albert_Cude.png" alt="IMG" onClick="history.go(0);" width="100" height=auto
+
+Changed Code :
+
+img src="static/Albert_Cude.png" alt="IMG" onClick="history.go(1);" width="100" height=auto
+
+
+
+Program / Code :
+
+    
+The Random List Generated Is
+
+
+    {% for item in randomlist %}
+        
+{{ % item % }}
+
+    {% endfor %}
+
+    
+    Generate New
+    
+
+Output :
+
+    The Random List Generated Is
+
+    •
+
+    Generate New -->
